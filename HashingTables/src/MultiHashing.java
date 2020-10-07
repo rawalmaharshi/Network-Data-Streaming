@@ -8,6 +8,9 @@ public class MultiHashing {
                 noOfFlows = Integer.parseInt(args[1]);
                 noOfHashes = Integer.parseInt(args[2]);
                 System.out.println("Table Size: " + noOfEntries + ", No. of Flows: " + noOfFlows + ", No.of Hash Functions: " + noOfHashes);
+                TableNode tab = new TableNode(noOfEntries, noOfHashes);
+                tab.insert(noOfFlows);
+                tab.print();
             } catch (Exception e) {
                 System.err.println("Error parsing arguments. Expected an integer.");
                 System.exit(1);
