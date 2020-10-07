@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/HashingTables/CuckooHash.iml" filepath="$PROJECT_DIR$/HashingTables/CuckooHash.iml" />
       <module fileurl="file://$PROJECT_DIR$/HashingTables/HashingTables.iml" filepath="$PROJECT_DIR$/HashingTables/HashingTables.iml" />
       <module fileurl="file://$PROJECT_DIR$/NetworkDataStreaming.iml" filepath="$PROJECT_DIR$/NetworkDataStreaming.iml" />
     </modules>

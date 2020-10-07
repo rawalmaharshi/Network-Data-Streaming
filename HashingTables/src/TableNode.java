@@ -3,12 +3,14 @@ public class TableNode {
     int hashCount;
     int flowsRecorded;
     int table[];
+    int hashArray[];
 
     public TableNode(int size, int hashCount) {
         this.size = size;
         this.hashCount = hashCount;
         this.flowsRecorded = 0;
         table = new int[size];
+        hashArray = new int[hashCount];
         //Initialize with zero
         for (int i = 0; i < size; i++) {
             table[i] = 0;
@@ -21,7 +23,7 @@ public class TableNode {
      * @param hashCount Number of hash functions to use
      * @return Randomly generated s[]
      */
-    public static int[] initializeHashArray(int hashCount) {
+    public int[] initializeHashArray(int hashCount) {
         int[] randomNumArray = new int[hashCount];
         int min = 0, max = Integer.MAX_VALUE;
         for (int i = 0; i < hashCount; i++) {
@@ -36,17 +38,15 @@ public class TableNode {
      * Return the array index to store flow ID
      *
      * @param flowID    randomly generated flowID
-     * @param hashCount Number of hash functions to implement
+     * @param index Number of hash functions to implement
      * @param tableSize Size of Hash Table
      * @return the arrayIndex to store the flow ID into
      */
-    public static int hash(int flowID, int hashCount, int tableSize) {
+    public int hash(int flowID, int index, int tableSize) {
         int arrayIndex = -1;    //Initialize to minus 1
-        int s[] = initializeHashArray(hashCount);
-        for (int i = 0; i < s.length; i++) {
-            flowID = flowID ^ s[i];
-        }
-        arrayIndex = flowID % tableSize;
+        int xID = flowID ^ this.hashArray[index];
+        arrayIndex = xID % tableSize;
+//        System.out.println("FlowID: " + flowID + ", xID: " + xID + ", Arr Index: " + arrayIndex);
         return arrayIndex;
     }
 
@@ -58,24 +58,28 @@ public class TableNode {
      * @param flowSize  the number of flows into the hashtable
      */
     public void insert (int flowSize) {
+        this.hashArray = initializeHashArray(this.hashCount);
         int min = 1, max = Integer.MAX_VALUE;
         for (int i = 0; i < flowSize; i++) {
             int flowID = (int) (Math.random() * (max - min)); //Returns value in the range 1 - Integer.MAX_VALUE
-            int arrIndex = hash(flowID, this.hashCount, this.size);
-//            System.out.println(flowID + " " + arrIndex);
-            //Can insert flow
-            if (this.table[arrIndex] == 0) {
-                this.table[arrIndex] = flowID;
-                this.flowsRecorded++;
-            } else {
-                //Ignore that flow
-                continue;
+            //For up to k hash functions
+            for (int j = 0; j < this.hashCount; j++) {
+                int arrIndex = hash(flowID, j, this.size);
+                //Can insert flow
+                if (this.table[arrIndex] == 0) {
+                    this.table[arrIndex] = flowID;
+                    this.flowsRecorded++;
+                    break;
+                } else {
+                    //Ignore that flow
+                    continue;
+                }
             }
         }
     }
 
     public void print () {
-        System.out.println("Number of flows in the table: " + this.flowsRecorded);
+        System.out.println("\n\nNumber of flows in the table: " + this.flowsRecorded);
         for (int i = 0; i < this.size; i++) {
             if (this.table[i] != 0) {
                 System.out.println("Index: " + i + ", Flow ID: " + this.table[i]);
