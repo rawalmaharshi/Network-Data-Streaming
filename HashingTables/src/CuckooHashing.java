@@ -8,10 +8,9 @@ public class CuckooHashing {
                 noOfHashes = Integer.parseInt(args[2]);
                 noOfCuckooSteps = Integer.parseInt(args[3]);
                 System.out.println("Table Size: " + noOfEntries + ", No. of Flows: " + noOfFlows + ", No.of Hash Functions: " + noOfHashes + ", No. of Cuckoo Steps: " + noOfCuckooSteps);
-//                TableNode tab = new TableNode(noOfEntries, noOfHashes);
-//                tab.insert(noOfFlows);
-//                tab.print();
-
+                CuckooTable tab = new CuckooTable(noOfEntries, noOfHashes, noOfCuckooSteps);
+                tab.insert(noOfFlows, noOfCuckooSteps);
+                tab.print();
 
             } catch (Exception e) {
                 System.err.println("Error parsing arguments. Expected an integer.");
