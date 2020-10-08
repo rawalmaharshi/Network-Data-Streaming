@@ -45,6 +45,10 @@ public class TableNode {
     public int hash(int flowID, int index, int tableSize) {
         int arrayIndex = -1;    //Initialize to minus 1
         int xID = flowID ^ this.hashArray[index];
+        //further hashing
+        xID = ((xID >> 16) ^ xID) * 0x45d9f3b;
+        xID = ((xID >> 16) ^ xID) * 0x45d9f3b;
+        xID = (xID >> 16) ^ xID;
         arrayIndex = xID % tableSize;
 //        System.out.println("FlowID: " + flowID + ", xID: " + xID + ", Arr Index: " + arrayIndex);
         return arrayIndex;
@@ -64,7 +68,7 @@ public class TableNode {
             int flowID = (int) (Math.random() * (max - min)); //Returns value in the range 1 - Integer.MAX_VALUE
             //For up to k hash functions
             for (int j = 0; j < this.hashCount; j++) {
-                int arrIndex = hash(flowID, j, this.size);
+                int arrIndex = hash(flowID, j, this.size);  //To debug, replace flowID with i
                 //Can insert flow
                 if (this.table[arrIndex] == 0) {
                     this.table[arrIndex] = flowID;
