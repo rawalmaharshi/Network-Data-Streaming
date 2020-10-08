@@ -87,6 +87,8 @@ public class TableNode {
         for (int i = 0; i < this.size; i++) {
             if (this.table[i] != 0) {
                 System.out.println("Index: " + i + ", Flow ID: " + this.table[i]);
+            } else {
+                System.out.println("Index: " + i + ", Entry: " + this.table[i]);
             }
         }
     }
