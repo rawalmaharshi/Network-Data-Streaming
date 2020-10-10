@@ -1,11 +1,14 @@
-public class TableNode {
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class MultiTable {
     int size;
     int hashCount;
     int flowsRecorded;
     int table[];
     int hashArray[];
 
-    public TableNode(int size, int hashCount) {
+    public MultiTable(int size, int hashCount) {
         this.size = size;
         this.hashCount = hashCount;
         this.flowsRecorded = 0;
@@ -59,13 +62,12 @@ public class TableNode {
      * 2. Assuming each flow is a packet, record one flow at a time
      * 3. Collision Handling - none. Ignore flows that cannot be stored in the table.
      *
-     * @param flowSize  the number of flows into the hashtable
+     * @param flows the array of flows into the hashtable
      */
-    public void insert (int flowSize) {
+    public void insert (int [] flows) {
         this.hashArray = initializeHashArray(this.hashCount);
-        int min = 1, max = Integer.MAX_VALUE;
-        for (int i = 0; i < flowSize; i++) {
-            int flowID = (int) (Math.random() * (max - min)); //Returns value in the range 1 - Integer.MAX_VALUE
+        for (int i = 0; i < flows.length; i++) {
+            int flowID = flows[i];
             //For up to k hash functions
             for (int j = 0; j < this.hashCount; j++) {
                 int arrIndex = hash(flowID, j, this.size);  //To debug, replace flowID with i
@@ -83,13 +85,33 @@ public class TableNode {
     }
 
     public void print () {
-        System.out.println("\n\nNumber of flows in the table: " + this.flowsRecorded);
-        for (int i = 0; i < this.size; i++) {
-            if (this.table[i] != 0) {
-                System.out.println("Index: " + i + ", Flow ID: " + this.table[i]);
-            } else {
-                System.out.println("Index: " + i + ", Entry: " + this.table[i]);
+        try {
+            FileWriter fw = null;
+            String opFile = "multi_hashing_output.txt";
+            fw = new FileWriter(opFile);
+            StringBuilder sb = new StringBuilder();
+            fw.write("Number of flows in the table: " + this.flowsRecorded + "\n");
+            for (int i = 0; i < this.size; i++) {
+                if (this.table[i] != 0) {
+                    sb.append("\n[" + i + "] -> Flow ID: " + this.table[i]);
+                } else {
+                    sb.append("\n[" + i + "] -> Entry: " + this.table[i]);
+                }
             }
+            sb.append("\n");
+            fw.write(sb.toString());
+            fw.close();
+            System.out.println("Output in file: " + opFile);
+        } catch (Exception e) {
+            System.err.println("Error printing to file. " + e);
         }
+//        System.out.println("\n\nNumber of flows in the table: " + this.flowsRecorded);
+//        for (int i = 0; i < this.size; i++) {
+//            if (this.table[i] != 0) {
+//                System.out.println("Index: " + i + ", Flow ID: " + this.table[i]);
+//            } else {
+//                System.out.println("Index: " + i + ", Entry: " + this.table[i]);
+//            }
+//        }
     }
 }

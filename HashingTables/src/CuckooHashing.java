@@ -8,8 +8,16 @@ public class CuckooHashing {
                 noOfHashes = Integer.parseInt(args[2]);
                 noOfCuckooSteps = Integer.parseInt(args[3]);
                 System.out.println("Table Size: " + noOfEntries + ", No. of Flows: " + noOfFlows + ", No.of Hash Functions: " + noOfHashes + ", No. of Cuckoo Steps: " + noOfCuckooSteps);
+
+                int [] flowArray = new int[noOfFlows];
+                int min = 1, max = Integer.MAX_VALUE;
+                for (int i = 0; i < noOfFlows; i++) {
+                    int flowID = (int) (Math.random() * (max - min)); //Returns value in the range 1 - Integer.MAX_VALUE
+                    flowArray[i] = flowID;
+                }
+
                 CuckooTable tab = new CuckooTable(noOfEntries, noOfHashes, noOfCuckooSteps);
-                tab.insert(noOfFlows, noOfCuckooSteps);
+                tab.insert(flowArray, noOfCuckooSteps);
                 tab.print();
 
             } catch (Exception e) {
