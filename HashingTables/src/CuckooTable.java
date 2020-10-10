@@ -78,11 +78,13 @@ public class CuckooTable {
             if (this.table[arrIndex] == 0) {
                 this.table[arrIndex] = flowID;
                 return true;
-            } else {
-                if (move(arrIndex, cuckooSteps)) {  //if a move is possible
-                    this.table[arrIndex] = flowID;
-                    return true;
-                }
+            }
+        }
+        for (int j = 0; j < this.hashCount; j++){
+            int arrIndex = hash(flowID, j, this.size);
+            if (move(arrIndex, cuckooSteps)) {  //if a move is possible
+                this.table[arrIndex] = flowID;
+                return true;
             }
         }
         return false;
@@ -100,7 +102,14 @@ public class CuckooTable {
                 this.table[newTableIndex] = flowID;
                 return true;
             }
-            move(newTableIndex, cuckooSteps - 1);
+        }
+
+        for (int i = 0; i < this.hashCount; i++) {
+            int newTableIndex = hash(flowID, i, this.size);
+            if (newTableIndex != arrIndex && move(newTableIndex, cuckooSteps - 1)) {
+                this.table[newTableIndex] = flowID;
+                return true;
+            }
         }
         return false;
     }
