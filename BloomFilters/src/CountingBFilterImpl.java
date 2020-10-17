@@ -1,16 +1,14 @@
 import java.io.FileWriter;
 
-public class BloomFilterImpl {
+public class CountingBFilterImpl {
     int bitCount;
     int hashCount;
-    int bitSet;
     int bitArray[];
     int hashArray[];
 
-    public BloomFilterImpl(int bitCount, int hashCount) {
+    public CountingBFilterImpl(int bitCount, int hashCount) {
         this.bitCount = bitCount;
         this.hashCount = hashCount;
-        this.bitSet = 0;
         bitArray = new int[bitCount];
         hashArray = new int[hashCount];
         //Initialize with zero
@@ -67,11 +65,20 @@ public class BloomFilterImpl {
             //For up to k hash functions
             for (int j = 0; j < this.hashCount; j++) {
                 int arrIndex = hash(element, j, this.bitCount);
-                //set the bit to 1
-                if (this.bitArray[arrIndex] != 1) {
-                    this.bitArray[arrIndex] = 1;
-                    this.bitSet++;
-                }
+                //increment the counter of 'mth' bit
+                this.bitArray[arrIndex]++;
+            }
+        }
+    }
+
+    public void removeElem (int [] removeSet) {
+        for (int i = 0; i < removeSet.length; i++) {
+            int element = removeSet[i];
+            //For up to k hash functions
+            for (int j = 0; j < this.hashCount; j++) {
+                int arrIndex = hash(element, j, this.bitCount);
+                //decrement the counter of 'mth' bit
+                this.bitArray[arrIndex]--;
             }
         }
     }
@@ -83,10 +90,10 @@ public class BloomFilterImpl {
             for (int j = 0; j < this.hashCount; j++) {
                 int arrIndex = hash(element, j, this.bitCount);
                 //element is not present
-                if (this.bitArray[arrIndex] != 1) {
+                if (this.bitArray[arrIndex] <= 0) {
                     break;
                 }
-                //reaches here only if all bits are set to 1
+                //reaches here only if all bits are set to (>= 1)
                 if (j == this.hashCount - 1) {
                     noOfElementsPresent++;
                 }
@@ -116,11 +123,8 @@ public class BloomFilterImpl {
 //        } catch (Exception e) {
 //            System.err.println("Error printing to file. " + e);
 //        }
-//        System.out.println("\n\nNumber of bits set in the table: " + this.bitSet);
         for (int i = 0; i < this.bitCount; i++) {
-            if (this.bitArray[i] != 0) {
-                System.out.println("Index: " + i + ", Flow ID: " + this.bitArray[i]);
-            }
+            System.out.println("[" + i + "] -> Count: " + this.bitArray[i]);
         }
     }
 }
