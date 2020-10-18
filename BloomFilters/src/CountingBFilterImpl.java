@@ -71,6 +71,9 @@ public class CountingBFilterImpl {
         }
     }
 
+    /**
+     * @param removeSet the array to be removed from the bloom filter
+     */
     public void removeElem (int [] removeSet) {
         for (int i = 0; i < removeSet.length; i++) {
             int element = removeSet[i];
@@ -83,6 +86,10 @@ public class CountingBFilterImpl {
         }
     }
 
+    /**
+     * @param lookupSet the array to perform lookup on in the bloom filter
+     * @return the number of elements present in the bloom filter
+     */
     public int lookup (int [] lookupSet) {
         int noOfElementsPresent = 0;
         for (int i = 0; i < lookupSet.length; i++) {
