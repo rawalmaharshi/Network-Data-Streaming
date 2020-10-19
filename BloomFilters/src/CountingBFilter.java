@@ -50,7 +50,7 @@ public class CountingBFilter {
                 }
 
             } catch (Exception e) {
-                System.err.println("Error parsing arguments. Expected an integer.");
+                System.err.println("Error: " + e);
                 System.exit(1);
             }
         } else {

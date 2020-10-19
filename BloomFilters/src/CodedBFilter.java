@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+
 public class CodedBFilter {
     public static void main(String[] args) {
         int noOfSets, noOfElements, noOfFilters, noOfBits, noOfHashes;
@@ -19,9 +21,18 @@ public class CodedBFilter {
                         set[i][j] = element;
                     }
                 }
-
                 cbf.encode(set);
-                System.out.println(cbf.lookup(set));
+
+                try {
+                    FileWriter fw = null;
+                    String opFile = "coded_bloom_filter_output.txt";
+                    fw = new FileWriter(opFile);
+                    fw.write("Number of elements whose lookup results are correct: " + cbf.lookup(set));
+                    fw.close();
+                    System.out.println("Output in file: " + opFile);
+                } catch (Exception e) {
+                    System.err.println("Error printing to file. " + e);
+                }
             } catch (Exception e) {
                 System.err.println("Error: " + e);
                 System.exit(1);
