@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+
 public class BloomFilter {
     public static void main(String[] args) {
         int noOfElements, noOfBits, noOfHashes;
@@ -15,15 +17,26 @@ public class BloomFilter {
                     int element2 = (int) (Math.random() * (max - min)); //Returns value in the range 1 - Integer.MAX_VALUE
                     setA[i] = element1;
                     setB[i] = element2;
-//                    System.out.println("A: " + setA[i] + ", B: " + setB[i]);
                 }
 
                 BloomFilterImpl filt = new BloomFilterImpl(noOfBits, noOfHashes);
                 filt.encode(setA);
-                System.out.println("After lookup of elements in A, No. of elements in the filter: " + filt.lookup(setA));
-                System.out.println("After lookup of elements in B, No. of elements in the filter: " + filt.lookup(setB));
+
+                try {
+                    FileWriter fw = null;
+                    String opFile = "bloom_filter_output.txt";
+                    fw = new FileWriter(opFile);
+                    StringBuilder sb = new StringBuilder();
+                    fw.write("After lookup of elements in A, No. of elements in the filter: " + filt.lookup(setA) + "\n");
+                    fw.write("After lookup of elements in B, No. of elements in the filter: " + filt.lookup(setB));
+                    fw.close();
+                    System.out.println("Output in file: " + opFile);
+                } catch (Exception e) {
+                    System.err.println("Error printing to file. " + e);
+                }
+
             } catch (Exception e) {
-                System.err.println("Error parsing arguments. Expected an integer.");
+                System.err.println("Error" + e);
                 System.exit(1);
             }
         } else {

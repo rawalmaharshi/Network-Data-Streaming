@@ -100,31 +100,8 @@ public class BloomFilterImpl {
     }
 
     public void print () {
-//        try {
-//            FileWriter fw = null;
-//            String opFile = "multi_hashing_output.txt";
-//            fw = new FileWriter(opFile);
-//            StringBuilder sb = new StringBuilder();
-//            fw.write("Number of flows in the table: " + this.flowsRecorded + "\n");
-//            for (int i = 0; i < this.size; i++) {
-//                if (this.table[i] != 0) {
-//                    sb.append("\n[" + i + "] -> Flow ID: " + this.table[i]);
-//                } else {
-//                    sb.append("\n[" + i + "] -> Entry: " + this.table[i]);
-//                }
-//            }
-//            sb.append("\n");
-//            fw.write(sb.toString());
-//            fw.close();
-//            System.out.println("Output in file: " + opFile);
-//        } catch (Exception e) {
-//            System.err.println("Error printing to file. " + e);
+//        for (int i = 0; i < this.bitCount; i++) {
+//            System.out.println("[" + i + "] -> " + this.bitArray[i]);
 //        }
-//        System.out.println("\n\nNumber of bits set in the table: " + this.bitSet);
-        for (int i = 0; i < this.bitCount; i++) {
-            if (this.bitArray[i] != 0) {
-                System.out.println("Index: " + i + ", Flow ID: " + this.bitArray[i]);
-            }
-        }
     }
 }
