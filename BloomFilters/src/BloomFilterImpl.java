@@ -1,5 +1,3 @@
-import java.io.FileWriter;
-
 public class BloomFilterImpl {
     int bitCount;
     int hashCount;
@@ -100,8 +98,8 @@ public class BloomFilterImpl {
     }
 
     public void print () {
-//        for (int i = 0; i < this.bitCount; i++) {
-//            System.out.println("[" + i + "] -> " + this.bitArray[i]);
-//        }
+        for (int i = 0; i < this.bitCount; i++) {
+            System.out.println("[" + i + "] -> " + this.bitArray[i]);
+        }
     }
 }

@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+
 public class CountingBFilter {
     public static void main(String[] args) {
         int noOfElements, noOfRemoveElements, noOfAddElements, noOfBits, noOfHashes;
@@ -20,7 +22,6 @@ public class CountingBFilter {
                 }
                 //Encodes elements in the bloom filter
                 cbf.encode(setA);
-                System.out.println("After lookup of elements in A, No. of elements in the filter: " + cbf.lookup(setA));
 
                 //Remove elements
                 for (int i = 0; i < noOfRemoveElements; i++) {
@@ -36,9 +37,18 @@ public class CountingBFilter {
                 }
                 //add call
                 cbf.encode(setB);
-//                cbf.print();
 
-                System.out.println("After lookup of elements in A, No. of elements in the filter: " + cbf.lookup(setA));
+                try {
+                    FileWriter fw = null;
+                    String opFile = "counting_bloom_filter_output.txt";
+                    fw = new FileWriter(opFile);
+                    fw.write("After lookup of elements in A, No. of elements in the filter: " + cbf.lookup(setA));
+                    fw.close();
+                    System.out.println("Output in file: " + opFile);
+                } catch (Exception e) {
+                    System.err.println("Error printing to file. " + e);
+                }
+
             } catch (Exception e) {
                 System.err.println("Error parsing arguments. Expected an integer.");
                 System.exit(1);

@@ -26,7 +26,6 @@ public class BloomFilter {
                     FileWriter fw = null;
                     String opFile = "bloom_filter_output.txt";
                     fw = new FileWriter(opFile);
-                    StringBuilder sb = new StringBuilder();
                     fw.write("After lookup of elements in A, No. of elements in the filter: " + filt.lookup(setA) + "\n");
                     fw.write("After lookup of elements in B, No. of elements in the filter: " + filt.lookup(setB));
                     fw.close();
