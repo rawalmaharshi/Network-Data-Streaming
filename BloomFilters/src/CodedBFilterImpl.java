@@ -4,11 +4,12 @@ public class CodedBFilterImpl {
     int filterCount;
     int bitCount;
     int hashCount;
+    int codeLength;
     int filters[][];
     int hashArray[];
     String codesets[];
 
-    public CodedBFilterImpl(int filterCount, int bitCount, int hashCount) {
+    public CodedBFilterImpl(int setCount, int filterCount, int bitCount, int hashCount) {
         this.filterCount = filterCount;
         this.bitCount = bitCount;
         this.hashCount = hashCount;
@@ -21,7 +22,25 @@ public class CodedBFilterImpl {
             }
         }
         this.hashArray = initializeHashArray(this.hashCount);
-        this.codesets = new String[] {"001", "010", "011", "100", "101", "110", "111"};
+        this.codeLength = (int) Math.ceil((Math.log(setCount)/Math.log(2)));
+        this.codesets = new String[setCount];
+        for (int i = 1; i <= setCount; i++) {
+            this.codesets[i - 1] = toBinary(i, this.codeLength);
+        }
+    }
+
+    /**
+     *
+     * @param a integer a to encode
+     * @param length the length of the binary string to return
+     * @return  a binary string of length 'length'
+     */
+    public static String toBinary(int a, int length) {
+        if (length > 0) {
+            return String.format("%" + length + "s",
+                    Integer.toBinaryString(a)).replaceAll(" ", "0");
+        }
+        return null;
     }
 
     /**

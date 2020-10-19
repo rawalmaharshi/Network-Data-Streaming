@@ -9,7 +9,7 @@ public class CodedBFilter {
                 noOfBits = Integer.parseInt(args[3]);
                 noOfHashes = Integer.parseInt(args[4]);
 
-                CodedBFilterImpl cbf = new CodedBFilterImpl(noOfFilters, noOfBits, noOfHashes);
+                CodedBFilterImpl cbf = new CodedBFilterImpl(noOfSets, noOfFilters, noOfBits, noOfHashes);
 
                 int [][] set = new int[noOfSets][noOfElements];
                 int min = 1, max = Integer.MAX_VALUE;
@@ -23,7 +23,7 @@ public class CodedBFilter {
                 cbf.encode(set);
                 System.out.println(cbf.lookup(set));
             } catch (Exception e) {
-                System.err.println("Error parsing arguments. Expected an integer.");
+                System.err.println("Error: " + e);
                 System.exit(1);
             }
         } else {
