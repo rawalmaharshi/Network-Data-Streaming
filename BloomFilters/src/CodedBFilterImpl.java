@@ -1,5 +1,3 @@
-import java.io.FileWriter;
-
 public class CodedBFilterImpl {
     int filterCount;
     int bitCount;
@@ -121,7 +119,7 @@ public class CodedBFilterImpl {
                     for (int l = 0; l < this.hashCount; l++) {
                         int arrIndex = hash(element, l, this.bitCount);
                         if (this.filters[k][arrIndex] != 1) {
-                            actual += 0;
+                            actual += "0";
                             break;
                         }
                         //reaches here only if all bits are set to (>= 1)

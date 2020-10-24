@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/HashingTables/CuckooHash.iml" filepath="$PROJECT_DIR$/HashingTables/CuckooHash.iml" />
       <module fileurl="file://$PROJECT_DIR$/HashingTables/HashingTables.iml" filepath="$PROJECT_DIR$/HashingTables/HashingTables.iml" />
       <module fileurl="file://$PROJECT_DIR$/NetworkDataStreaming.iml" filepath="$PROJECT_DIR$/NetworkDataStreaming.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Sketches/Sketches.iml" filepath="$PROJECT_DIR$/Sketches/Sketches.iml" />
     </modules>
   </component>
 </project>
