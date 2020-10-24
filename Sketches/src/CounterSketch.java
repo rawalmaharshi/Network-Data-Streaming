@@ -4,7 +4,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.net.URL;
 
-public class CountMin {
+public class CounterSketch {
     public static void main(String[] args) {
         BufferedReader br;
         FileReader fr = null;
@@ -23,7 +23,7 @@ public class CountMin {
             //Initialize a CountMinImpl object
             int hashCount = 3;
             int width = 3000;
-            CountMinImpl cm = new CountMinImpl(flowCount, hashCount, width);
+            CounterSketchImpl cs = new CounterSketchImpl(flowCount, hashCount, width);
             String [] flowset = new String[flowCount];
             int [] flowsizeC = new int[flowCount];
             int flIndex = 0;
@@ -33,18 +33,18 @@ public class CountMin {
                 String flowId = params[0], packetSize = params[2];
 //                System.out.println("Flow ID: " + flowId + ", Packet Size: " + packetSize);
                 //Record flows
-                cm.record(flowId, Integer.parseInt(packetSize));
+                cs.record(flowId, Integer.parseInt(packetSize));
                 flowset[flIndex] = flowId;
                 flowsizeC[flIndex++] = Integer.parseInt(packetSize);
             }
 
             int diffSum = 0;
             for (int i = 0; i < flowCount; i++) {
-                int currDif = Math.abs(flowsizeC[i] - cm.queryMin(flowset[i]));
+                int currDif = Math.abs(flowsizeC[i] - cs.query(flowset[i]));
                 diffSum += currDif;
-                System.out.println("Diff: " + currDif);
+//                System.out.println("Diff: " + currDif);
             }
-            System.out.println("Average: " + diffSum / flowCount);
+            System.out.println("Average Error: " + diffSum / flowCount);
         } catch (Exception e) {
             System.out.println("Error reading from file: " + e);
         }
