@@ -96,7 +96,7 @@ public class CounterSketchImpl {
 
         //return median value
         int median = this.hashCount % 2 == 1 ? flowVals[this.hashCount / 2] : (flowVals[(this.hashCount / 2) - 1] + flowVals[this.hashCount / 2]) / 2;
-        System.out.println("median: " + median);
+//        System.out.println("median: " + median);
         return median;
     }
 
