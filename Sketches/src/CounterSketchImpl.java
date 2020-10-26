@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class CounterSketchImpl {
     int width;
     int flowCount;
@@ -53,11 +55,10 @@ public class CounterSketchImpl {
         xID = ((xID >> 16) ^ xID) * 0x45d9f3b;
         xID = ((xID >> 16) ^ xID) * 0x45d9f3b;
         xID = (xID >> 16) ^ xID;
-
         //do the bit operations here
         int bitVal = getMSBit(xID);
         arrayIndex = xID % tableSize;
-        HashValues hv = new HashValues(bitVal, arrayIndex);
+        HashValues hv = new HashValues(bitVal, Math.abs(arrayIndex));
         return hv;
     }
 
@@ -76,7 +77,9 @@ public class CounterSketchImpl {
             int arrIndex = val.arrIndex;
             int bitSet = val.bitSet;
             //System.out.println("ID: " + flowId + " .... " + flowID + " .... " + arrIndex);
+//            System.out.print("Before: " + this.counter[i][arrIndex]);
             this.counter[i][arrIndex] = (bitSet == 1 ) ? this.counter[i][arrIndex] + flowSize : this.counter[i][arrIndex] - flowSize;
+//            System.out.print("\tMSB Bit: " + bitSet + "\tPacket Size: " + flowSize + "\tAfter: " + this.counter[i][arrIndex] + "\n");
         }
     }
 
@@ -89,15 +92,20 @@ public class CounterSketchImpl {
             int bitSet = val.bitSet;
             flowVals[i] = (bitSet == 1 ) ? this.counter[i][arrIndex] : -1 * this.counter[i][arrIndex];
         }
+        Arrays.sort(flowVals);
 
         //return median value
         int median = this.hashCount % 2 == 1 ? flowVals[this.hashCount / 2] : (flowVals[(this.hashCount / 2) - 1] + flowVals[this.hashCount / 2]) / 2;
-//        System.out.println("median: " + median);
+        System.out.println("median: " + median);
         return median;
     }
 
     int getMSBit(int n) {
-        return (n & 0xff) >> 7;
+        //get the 31st bit
+        boolean value = (n & (1 << 30)) != 0;
+//        System.out.print(n + "..." + String.format("%32s", Integer.toBinaryString(n)).replace(' ', '0'));
+//        System.out.print("\t 1st bit: " + value + "\n");
+        return value == true ? 1 : 0;
     }
 }
 

@@ -3,6 +3,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.net.URL;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class CounterSketch {
     public static void main(String[] args) {
@@ -10,7 +12,9 @@ public class CounterSketch {
         FileReader fr = null;
         String ipFile = args[0];
         FileWriter fw = null;
-        String opFile = "count_min_sketch_output.txt";
+        String opFile = "counter_sketch_output.txt";
+        Queue<Que> topHundred = new PriorityQueue<>(100, (a,b) -> a.estimatedSize - b.estimatedSize);
+        float average = 0;
 
         //reading
         try {
@@ -40,11 +44,19 @@ public class CounterSketch {
 
             int diffSum = 0;
             for (int i = 0; i < flowCount; i++) {
-                int currDif = Math.abs(flowsizeC[i] - cs.query(flowset[i]));
+                int estimatedSize = cs.query(flowset[i]);
+                int trueSize = flowsizeC[i];
+                Que element = new Que(flowset[i], trueSize, estimatedSize);
+                if (topHundred.size() < 100 || topHundred.peek().estimatedSize < estimatedSize) {
+                    if (topHundred.size() == 100)
+                        topHundred.remove();
+                    topHundred.add(element);
+                }
+                int currDif = Math.abs(trueSize - estimatedSize);
                 diffSum += currDif;
-//                System.out.println("Diff: " + currDif);
             }
-            System.out.println("Average Error: " + diffSum / flowCount);
+            average = diffSum / flowCount;
+            System.out.println("Average: " + average);
         } catch (Exception e) {
             System.out.println("Error reading from file: " + e);
         }
@@ -52,6 +64,18 @@ public class CounterSketch {
         //writing
         try {
             fw = new FileWriter(opFile);
+            fw.write("Average Error among all flows: " + average + "\n\n");
+            //Reverse the min priority queue (will get in reverse order so that max is on top)
+            Que[] topElements = new Que[100];
+            for (int i = 0; i < 100; i++) {
+                topElements[i] = topHundred.poll();
+            }
+
+            for (int i = 99; i >= 0; i--) {
+                Que element = topElements[i];
+                fw.write("Flow ID: " + element.flowId + ", Estimated Size: " + element.estimatedSize
+                        + ", True Size: " + element.trueSize + "\n");
+            }
             fw.close();
         } catch (Exception e) {
             System.out.println("Error writing to file: " + e);
