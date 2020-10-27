@@ -73,6 +73,11 @@ public class CountMinImpl {
         }
     }
 
+    /**
+     * Returns the min of the k values
+     * @param flowId the flowId for which we want to query
+     * @return min value of the k values
+     */
    public int queryMin(String flowId) {
         int min = Integer.MAX_VALUE;
         int flowID = flowId.hashCode();
@@ -82,33 +87,4 @@ public class CountMinImpl {
         }
         return min;
    }
-
-    /**
-     * @param lookupSet the array to perform lookup on in the bloom filter
-     * @return the number of elements present in the bloom filter
-     */
-    public int lookup (int [] lookupSet) {
-        int noOfElementsPresent = 0;
-//        for (int i = 0; i < lookupSet.length; i++) {
-//            int element = lookupSet[i];
-//            for (int j = 0; j < this.hashCount; j++) {
-//                int arrIndex = hash(element, j, this.bitCount);
-//                //element is not present
-//                if (this.bitArray[arrIndex] <= 0) {
-//                    break;
-//                }
-//                //reaches here only if all bits are set to (>= 1)
-//                if (j == this.hashCount - 1) {
-//                    noOfElementsPresent++;
-//                }
-//            }
-//        }
-        return noOfElementsPresent;
-    }
-
-    public void print () {
-//        for (int i = 0; i < this.bitCount; i++) {
-//            System.out.println("[" + i + "] -> Count: " + this.bitArray[i]);
-//        }
-    }
 }

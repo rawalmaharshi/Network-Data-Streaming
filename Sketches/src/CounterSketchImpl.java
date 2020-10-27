@@ -83,6 +83,12 @@ public class CounterSketchImpl {
         }
     }
 
+    /**
+     * Returns the median of the k values
+     *
+     * @param flowId the flowId for which we want to query
+     * @return  median value
+     */
     public int query(String flowId) {
         int flowID = flowId.hashCode();
         int [] flowVals = new int[this.hashCount];
@@ -100,6 +106,11 @@ public class CounterSketchImpl {
         return median;
     }
 
+    /**
+     *
+     * @param n the number whose MSB is needed
+     * @return the MSB - 0 or 1
+     */
     int getMSBit(int n) {
         //get the 31st bit
         boolean value = (n & (1 << 30)) != 0;
