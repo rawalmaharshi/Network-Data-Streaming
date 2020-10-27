@@ -76,9 +76,9 @@ public class CountMin {
                         + ", True Size: " + element.trueSize + "\n");
             }
             fw.close();
+            System.out.println("Output in file: " + opFile);
         } catch (Exception e) {
             System.out.println("Error writing to file: " + e);
         }
-        System.out.println("Output in file: " + opFile);
     }
 }

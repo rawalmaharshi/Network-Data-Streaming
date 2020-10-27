@@ -76,10 +76,10 @@ public class CounterSketch {
                 fw.write("Flow ID: " + element.flowId + ", Estimated Size: " + element.estimatedSize
                         + ", True Size: " + element.trueSize + "\n");
             }
+            System.out.println("Output in file: " + opFile);
             fw.close();
         } catch (Exception e) {
             System.out.println("Error writing to file: " + e);
         }
-        System.out.println("Output in file: " + opFile);
     }
 }

@@ -1,3 +1,4 @@
+import java.io.FileWriter;
 import java.util.Random;
 
 public class ActiveCounter {
@@ -43,7 +44,17 @@ public class ActiveCounter {
             }
         }
 
-        System.out.println("Final Value of Active Counter(Int): " + (int) (cn * Math.pow(2, ce)));
-        System.out.println("Final Value of Active Counter(Short): " + (int) (cnn.intValue() * Math.pow(2, cee.intValue())));
+        try {
+            FileWriter fw = null;
+            String opFile = "active_counter_output.txt";
+            fw = new FileWriter(opFile);
+            fw.write("Final Value of Active Counter: " + (int) (cn * Math.pow(2, ce)));
+            fw.close();
+            System.out.println("Output in file: " + opFile);
+        } catch (Exception e) {
+            System.err.println("Error printing to file. " + e);
+        }
+
+//        System.out.println("Final Value of Active Counter(Short): " + (int) (cnn.intValue() * Math.pow(2, cee.intValue())));
     }
 }
